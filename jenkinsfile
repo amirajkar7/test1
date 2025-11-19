@@ -24,7 +24,6 @@ pipeline {
 				
 						steps {
 								echo "this is stage 3"
-								sh "rm -rf *"
 								sh "yum install httpd -y"
 								sh "cp /root/.jenkins/workspace/'test 4'/index.html /var/www/html"
 						}
