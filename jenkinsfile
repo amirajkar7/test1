@@ -16,7 +16,8 @@ pipeline {
 		}
 		stage ("cloning git repo"){
 			agent {
-			label {
+			node {
+				label "built-in"
 				customWorkspace "/mnt/project"
 			}
 			}
@@ -26,7 +27,8 @@ pipeline {
 		}
 		stage ("building project code"){
 		    agent {
-			label {
+			node {
+				label "built-in"
 				customWorkspace "/mnt/project"
 			}
 			}
