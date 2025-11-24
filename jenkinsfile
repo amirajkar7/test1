@@ -1,35 +1,34 @@
 pipeline {
-
-			agent {
-
-				label {
-					label "built-in"
-				}
+	agent {
+		label {
+			label "built-in"
+			customWorkspace "/mnt/project"
+		}
+	}
+	
+	stages {
+		stage ("cleaning repo files and webapp file"){
+			steps {
+				sh "rm -rf /root/.m2/ *"
+				sh "rm -rf /mnt/project"
+				sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
 			}
-			
-			
-			stages {
-			
-				stage ('one'){
-				
-					steps {
-								echo "this is stage 1"
-							
-					}
-				
-				}
-				
-				
-				stage ('two') {
-				
-						steps {
-								echo "this is stage 3"
-								sh "yum install httpd -y"
-								sh "service httpd start"
-								sh "cp /root/.jenkins/workspace/'test 4'/index.html /var/www/html"
-						}
-				}
-			
+		}
+		stage ("cloning git repo"){
+			steps {
+				git url: "https://github.com/amirajkar7/project.git"
 			}
+		}
+		stage ("building project code"){
+			steps {
+				sh "mvn clean package"
+			}
+		}
+		stage ("copying war file"){
+			steps {
+				sh "cp -r /mnt/project/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps"
+			}
+		}
+	}
 
 }
