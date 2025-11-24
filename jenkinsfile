@@ -2,7 +2,7 @@ pipeline {
 	agent {
 		label {
 			label "built-in"
-			customWorkspace "/mnt/project"
+			
 		}
 	}
 	
@@ -11,15 +11,25 @@ pipeline {
 			steps {
 				sh "rm -rf /root/.m2/ *"
 				sh "rm -rf /mnt/project"
-				// sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
+				sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
 			}
 		}
 		stage ("cloning git repo"){
+			agent {
+			label {
+				customWorkspace "/mnt/project"
+			}
+			}
 			steps {
 				git url: "https://github.com/amirajkar7/project.git"
 			}
 		}
 		stage ("building project code"){
+		    agent {
+			label {
+				customWorkspace "/mnt/project"
+			}
+			}
 			steps {
 				sh "mvn clean package"
 			}
