@@ -1,44 +1,18 @@
 pipeline {
-	agent {
-		label {
-			label "built-in"
-			
-		}
+	agent any 
+	environment {
+	PATH = "/mnt/build-tools/apache-maven-3.9.11/bin:$PATH"
 	}
 	
 	stages {
-		stage ("cleaning repo files and webapp file"){
-			steps {
-				sh "rm -rf /root/.m2/repository/*"
-				sh "rm -rf /mnt/project/*"
-				sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
-			}
-		}
 		stage ("cloning git repo"){
-			agent {
-			node {
-				label "built-in"
-				customWorkspace "/mnt/project"
-			}
-			}
 			steps {
 				git url: "https://github.com/amirajkar7/project.git"
 			}
 		}
 		stage ("building project code"){
-		    agent {
-			node {
-				label "built-in"
-				customWorkspace "/mnt/project"
-			}
-			}
 			steps {
 				sh "mvn clean package"
-			}
-		}
-		stage ("copying war file"){
-			steps {
-				sh "cp -r /mnt/project/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps"
 			}
 		}
 	}
