@@ -10,7 +10,7 @@ pipeline {
 		stage ("cleaning repo files and webapp file"){
 			steps {
 				sh "rm -rf /root/.m2/ *"
-				sh "rm -rf /mnt/project/"
+				sh "rm -rf /mnt/project/ *"
 				sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
 			}
 		}
@@ -18,7 +18,7 @@ pipeline {
 			agent {
 			node {
 				label "built-in"
-				customWorkspace "/mnt/project"
+				customWorkspace "/mnt/project/"
 			}
 			}
 			steps {
@@ -29,7 +29,7 @@ pipeline {
 		    agent {
 			node {
 				label "built-in"
-				customWorkspace "/mnt/project/project"
+				customWorkspace "/mnt/project/project/"
 			}
 			}
 			steps {
@@ -38,7 +38,7 @@ pipeline {
 		}
 		stage ("copying war file"){
 			steps {
-				sh "cp -r /mnt/project/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps"
+				sh "cp -r /mnt/project/project/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.49/webapps"
 			}
 		}
 	}
