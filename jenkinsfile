@@ -11,7 +11,7 @@ pipeline {
 			steps {
 				sh "rm -rf /root/.m2/ *"
 				sh "rm -rf /mnt/project"
-				sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
+				// sh "rm -rf /mnt/servers/apache-tomcat-10.1.49/webapps/LoginWebApp*"
 			}
 		}
 		stage ("cloning git repo"){
